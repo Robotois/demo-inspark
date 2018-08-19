@@ -1,4 +1,4 @@
-import * as Led from 'robotois-led';
+const Led = require("robotois-led");
 
 const led = new Led(1);
 

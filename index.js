@@ -1,7 +1,7 @@
 const Led = require("robotois-led");
 const RGBs = require("robotois-rgb-leds");
 const DSensor = require("robotois-distance-sensor");
-const sleep = require("sleep");
+//const sleep = require("sleep");
 
 const led = new Led(1);
 const rgb = new RGBs();
@@ -13,7 +13,7 @@ let intervaloFestejo;
 
 function prenderTodos() {
   for (let i = 1; i < 8; i++) {
-    rgb.turnOn(i, `#${Math.floor(Math.random() * 16777215).toString(16)}`);
+    rgb.blink(i, `#${Math.floor(Math.random() * 16777215).toString(16)}`);
   }
 }
 
@@ -24,46 +24,30 @@ function apagarTodos() {
 }
 
 function parpadearRGBs() {
-  for (let i = 0; i < 4; i++) {
-    prenderTodos();
-    sleep.msleep(60);
-    apagarTodos();
-    sleep.msleep(60);
-  }
+  // for (let i = 0; i < 4; i++) {
+  prenderTodos();
+  //   sleep.msleep(60);
+  //  apagarTodos();
+  //sleep.msleep(60);
+  // }
 }
-
-function monitor() {
-  setInterval(() => {
-    const dist = distance.getValue();
-    console.log(`La distancia es: ${dist}`);
-
-    if (dist < 10) {
-      parpadearRGBs();
-    } else {
-      apagarTodos();
-    }
-  });
-}
-
-monitor();
-
-/*let contador = 7;
-let intervalo;
-let intervalo2;
 
 function parpadear(numero) {
-  for (let i = 0; i < 4; i++) {
-    rgb.turnOn(numero, "#FFF00");
-    led.turnOn();
-    sleep.msleep(60);
-    rgb.turnOff(numero);
-    led.turnOff();
-    sleep.msleep(60);
-  }
+  // for (let i = 0; i < 4; i++) {
+  rgb.blink(numero, "#FFF00");
+  led.blink();
+  // sleep.msleep(60);
+  // rgb.turnOff(numero);
+  // led.turnOff();
+  // sleep.msleep(60);
+  // }
 }
 
 function inicializar() {
-  intervalo = setInterval(() => {
+  if (intervaloPlay) {
+    return;
+  }
+  intervaloPlay = setInterval(() => {
     if (contador == 7) {
       parpadear(contador);
       contador--;
@@ -75,30 +59,27 @@ function inicializar() {
       contador--;
     } else {
       rgb.allOff();
+      led.turnOff();
       contador = 7;
     }
   }, 100);
 }
 
-function festejo() {
-  intervalo2 = setInterval(() => {
-    const dist = Number(distance.getValue());
-    console.log(dist);
+function monitor() {
+  setInterval(() => {
+    const dist = distance.getValue();
+    console.log(`La distancia es: ${dist}`);
 
-    switch (dist) {
-      case dist < 10:
-        clearInterval(intervalo);
-        rgb.allOff();
-        led.turnOff();
-        rgb.blinkAll("#00FF00");
-        break;
-      default:
-        clearInterval(intervalo2);
-        inicializar();
-        break;
+    apagarTodos();
+
+    if (dist < 10) {
+      clearInterval(intervaloPlay);
+      intervaloPlay = false;
+      parpadearRGBs();
+    } else {
+      inicializar();
     }
   }, 1000);
 }
 
-inicializar();
-*/
+monitor();

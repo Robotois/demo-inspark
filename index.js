@@ -18,6 +18,7 @@ function prenderTodos() {
 }
 
 function apagarTodos() {
+  led.turnOff();
   for (let i = 1; i < 8; i++) {
     rgb.turnOff(i);
   }
@@ -49,13 +50,14 @@ function inicializar() {
   }
   intervaloPlay = setInterval(() => {
     if (contador == 7) {
-      parpadear(contador);
+      //parpadear(contador);
+      led.blink();
       contador--;
     } else if (contador < 7 && contador > 0) {
       rgb.turnOn(contador, "#0000FF");
-      if (contador == 4) {
-        rgb.turnOff(7);
-      }
+      //if (contador == 4) {
+      //rgb.turnOff(7);
+      //}
       contador--;
     } else {
       rgb.allOff();

@@ -1,7 +1,7 @@
 const Led = require("robotois-led");
 const RGBs = require("robotois-rgb-leds");
 const DSensor = require("robotois-distance-sensor");
-//const sleep = require("sleep");
+const sleep = require("sleep");
 
 const led = new Led(1);
 const rgb = new RGBs();
@@ -12,14 +12,14 @@ let intervaloPlay;
 let intervaloFestejo;
 
 function prenderTodos() {
-  for (let l = 1; l < 8; l++) {
-    rgb.turnOn(v, `#${Math.floor(Math.random() * 16777215).toString(16)}`);
+  for (let i = 1; i < 8; i++) {
+    rgb.turnOn(i, `#${Math.floor(Math.random() * 16777215).toString(16)}`);
   }
 }
 
 function apagarTodos() {
-  for (let l = 1; l < 8; l++) {
-    rgb.turnOff(v);
+  for (let i = 1; i < 8; i++) {
+    rgb.turnOff(i);
   }
 }
 
@@ -33,7 +33,7 @@ function parpadearRGBs() {
 }
 
 function monitor() {
-  intervaloFestejo = setInterval(() => {
+  setInterval(() => {
     const dist = distance.getValue();
     console.log(`La distancia es: ${dist}`);
 
